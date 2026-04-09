@@ -1,0 +1,12 @@
+node_modules/
+output/
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Claude Code local settings
+.claude/
+
+# TiddlyWiki cache/state
+.tw-mcp/

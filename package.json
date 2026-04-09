@@ -1,0 +1,14 @@
+{
+	"name": "twillm",
+	"version": "0.0.1",
+	"description": "TiddlyWiki-based LLM knowledge wiki",
+	"scripts": {
+		"test": "node wiki/plugins/twillm/tests/yaml.test.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Jermolene/twillm.git"
+	},
+	"author": "Jeremy Ruston",
+	"license": "BSD-3-Clause"
+}
