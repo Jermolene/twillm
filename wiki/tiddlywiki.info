@@ -1,10 +1,7 @@
 {
 	"description": "TWILLM",
 	"plugins": [
-		"tiddlywiki/markdown",
-		"tiddlywiki/tiddlyweb",
-		"tiddlywiki/filesystem",
-		"twillm"
+		"tiddlywiki/markdown"
 	],
 	"themes": [
 		"tiddlywiki/vanilla",

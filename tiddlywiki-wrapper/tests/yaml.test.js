@@ -5,15 +5,7 @@ Run: node yaml.test.js
 */
 "use strict";
 
-// Load without TiddlyWiki module system
-var fs = require("fs");
-var src = fs.readFileSync(__dirname + "/../yaml.js", "utf8");
-// Strip TiddlyWiki header comment
-src = src.replace(/^\/\*\\[\s\S]*?\\\*\/\s*/, "");
-var mod = {exports: {}};
-var fn = new Function("exports", "module", "require", src);
-fn(mod.exports, mod, require);
-var yaml = mod.exports;
+var yaml = require("../yaml.js");
 
 var passed = 0, failed = 0;
 

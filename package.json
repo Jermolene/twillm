@@ -3,7 +3,8 @@
 	"version": "0.0.1",
 	"description": "TiddlyWiki-based LLM knowledge wiki",
 	"scripts": {
-		"test": "node wiki/plugins/twillm/tests/yaml.test.js"
+		"test": "node tiddlywiki-wrapper/tests/yaml.test.js",
+		"build": "node tiddlywiki-wrapper/start.js wiki --load sample-vault --render '[type[text/x-markdown]]' '[encodeuricomponent[]addsuffix[.html]]' text/plain '$:/core/templates/static.tiddler.html'"
 	},
 	"repository": {
 		"type": "git",

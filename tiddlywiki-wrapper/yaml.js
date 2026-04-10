@@ -1,14 +1,9 @@
-/*\
-title: $:/plugins/twillm/yaml.js
-type: application/javascript
-module-type: library
-
+/*
 Minimal YAML parser for frontmatter extraction.
 API-compatible subset of js-yaml: load(string) → object, dump(object) → string.
 Handles scalars, flow/block arrays, and simple nested maps.
 Can be replaced with `require("js-yaml")` as a drop-in upgrade.
-
-\*/
+*/
 "use strict";
 
 function YAMLException(message, mark) {
