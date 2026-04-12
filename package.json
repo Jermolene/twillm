@@ -4,6 +4,7 @@
 	"description": "TiddlyWiki-based LLM knowledge wiki",
 	"scripts": {
 		"test": "node tiddlywiki-wrapper/tests/yaml.test.js",
+		"start": "node tiddlywiki-wrapper/start.js wiki --listen",
 		"build": "node tiddlywiki-wrapper/start.js wiki --load sample-vault --render '[type[text/x-markdown]]' '[encodeuricomponent[]addsuffix[.html]]' text/plain '$:/core/templates/static.tiddler.html'"
 	},
 	"repository": {
