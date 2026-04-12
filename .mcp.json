@@ -1,0 +1,14 @@
+{
+	"mcpServers": {
+		"tiddlywiki": {
+			"type": "stdio",
+			"command": "node",
+			"args": [
+				"tiddlywiki-wrapper/start.js",
+				"wiki",
+				"--mcp",
+				"readwrite"
+			]
+		}
+	}
+}

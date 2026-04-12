@@ -2,7 +2,8 @@
 	"description": "TWILLM",
 	"plugins": [
 		"tiddlywiki/markdown",
-		"tiddlywiki/tiddlyweb"
+		"tiddlywiki/tiddlyweb",
+		"wikilabs/tw-mcp"
 	],
 	"themes": [
 		"tiddlywiki/vanilla",
