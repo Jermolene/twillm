@@ -3,7 +3,7 @@
 	"plugins": [
 		"tiddlywiki/markdown",
 		"tiddlywiki/tiddlyweb",
-		"wikilabs/tw-mcp"
+		"tiddlywiki/filesystem"
 	],
 	"themes": [
 		"tiddlywiki/vanilla",

@@ -1,0 +1,16 @@
+{
+	"directories": [
+		{
+			"path": "../../../vault",
+			"filesRegExp": "^.*\\.(md|tid)$",
+			"isTiddlerFile": true,
+			"searchSubdirectories": true,
+			"dynamicStore": {
+				"saveFilter": "[!is[system]]",
+				"watch": true,
+				"debounce": 400
+			},
+			"fields": {}
+		}
+	]
+}

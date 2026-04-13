@@ -22,14 +22,6 @@ try {
 	var globalRoot = cp.execSync("npm root -g", {encoding: "utf8"}).trim();
 	twPath = require("path").join(globalRoot, "tiddlywiki");
 }
-// Add vendored plugins to the TiddlyWiki plugin path
-var path = require("path");
-var pluginsPath = path.resolve(__dirname, "../plugins");
-if(process.env.TIDDLYWIKI_PLUGIN_PATH) {
-	process.env.TIDDLYWIKI_PLUGIN_PATH = pluginsPath + path.delimiter + process.env.TIDDLYWIKI_PLUGIN_PATH;
-} else {
-	process.env.TIDDLYWIKI_PLUGIN_PATH = pluginsPath;
-}
 
 var $tw = require(twPath).TiddlyWiki();
 
