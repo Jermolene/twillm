@@ -6,6 +6,8 @@
 			"args": [
 				"tiddlywiki-wrapper/start.js",
 				"wiki",
+				"--load",
+				"sample-vault",
 				"--mcp",
 				"readwrite"
 			]
