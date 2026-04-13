@@ -38,6 +38,9 @@ var $tw = require(twPath).TiddlyWiki();
 var deserializer = require("./markdown-deserializer.js")($tw);
 $tw.modules.define("$:/twillm/markdown-deserializer.js", "tiddlerdeserializer", deserializer);
 
+var serializer = require("./markdown-serializer.js")($tw);
+$tw.modules.define("$:/twillm/markdown-serializer.js", "tiddlerserializer", serializer);
+
 // Pass command line arguments to the boot kernel
 $tw.boot.argv = Array.prototype.slice.call(process.argv, 2);
 
