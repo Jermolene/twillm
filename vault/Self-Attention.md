@@ -1,0 +1,33 @@
+---
+title: Self-Attention
+tags: [concept, transformer, mechanism]
+rating: 7
+---
+
+Self-attention is a specific application of the [[Attention Mechanism]] where a sequence attends to itself: the queries, keys, and values are all linear projections of the same input. This is the core operation inside the [[Transformer]] encoder.
+
+## How it works
+
+For a sequence of token embeddings `X`:
+
+1. Project into three matrices: `Q = X·W_Q`, `K = X·W_K`, `V = X·W_V`
+2. Compute attention scores: `A = softmax(Q·K^T / sqrt(d_k))`
+3. Output: `A·V`
+
+Each token's output is a weighted sum of *all* tokens' values, where the weights are learned functions of token-to-token similarity.
+
+## Why it's powerful
+
+- **Parallelism** — unlike RNNs, all positions are computed simultaneously
+- **Long-range dependencies** — the path length between any two positions is O(1)
+- **Content-based routing** — attention weights depend on what the tokens contain, not just their positions (though see [[Positional Encoding]] for how position gets reintroduced)
+
+## Variants
+
+- **Masked self-attention** — used in decoder blocks; future positions are masked out so each position only attends to itself and earlier positions
+- **Multi-head self-attention** — runs several independent self-attention operations in parallel with different learned projections, then concatenates
+
+## See also
+
+- [[Attention Mechanism]]
+- [[Transformer]]
