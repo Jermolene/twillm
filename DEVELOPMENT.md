@@ -1,16 +1,15 @@
-# TWILLM — Claude Code handoff
+# twillm — Development notes
 
-## What this is
+Design decisions, project state, and notes for anyone working on twillm itself. End-user documentation is in [README.md](README.md). Agent instructions for editing this repo are in [CLAUDE.md](CLAUDE.md).
 
-A TiddlyWiki-based variant of [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). The LLM edits Markdown files in `vault/` directly (using normal file tools). TiddlyWiki runs as a Node.js server, loads the vault as a live-watched *dynamic store*, and serves the wiki to a browser at `http://localhost:8080`.
-
-## Repo structure
+## Repo layout
 
 ```
 ./
-├── handoff.md                  # This file — working brief
-├── CLAUDE.md                   # Conventions for working on twillm (this repo)
 ├── README.md                   # End-user docs
+├── DEVELOPMENT.md              # This file
+├── CLAUDE.md                   # Instructions for an LLM editing this repo
+├── LICENSE
 ├── package.json                # bin: twillm → ./cli.js; deps: tiddlywiki
 ├── cli.js                      # Entry point: detects vault, materialises wiki, spawns TW
 ├── .gitignore
@@ -54,16 +53,18 @@ This is the third architecture we tried. The first two failed:
 
 2. **Copy sample-vault into `wiki/content/` + dynamic store + MCP** — awkward duplication of files, and still carried the MCP saveFilter bug above.
 
-3. **Current: LLM edits `vault/` directly via file tools; TW watches it** — simplest possible. Matches Karpathy's Obsidian model (filesystem is source of truth, watcher picks up changes). No MCP server, no process coordination, no duplication.
+3. **Current: LLM edits the vault directly via file tools; TW watches it** — simplest possible. Matches Karpathy's Obsidian model (filesystem is source of truth, watcher picks up changes). No MCP server, no process coordination, no duplication.
 
 ## YAML frontmatter (deserializer + serializer)
 
 Both live in TiddlyWiki's `plugins/tiddlywiki/markdown/` (in the `bidirectional-filesystem` branch):
+
 - `frontmatter-deserializer.js` (module-type: tiddlerdeserializer for `text/x-markdown`)
 - `frontmatter-serializer.js` (module-type: tiddlerserializer for `text/x-markdown`)
 - `yaml.js` (minimal js-yaml-API-compatible parser; library module)
 
 Round-trip:
+
 - **Load**: `---` YAML frontmatter → tiddler fields. Arrays on list fields (tags, list) → TW bracketed lists. Other non-string values → JSON. `created`/`modified` ignored. Existing tags merged with frontmatter tags.
 - **Save**: tiddler fields → YAML frontmatter, body → after the closing `---`. `text`/`created`/`modified`/`bag`/`revision` skipped from frontmatter. `type: text/x-markdown` omitted (default for `.md`). List fields → YAML arrays. Title emitted first.
 
@@ -71,13 +72,15 @@ Tests in `editions/test/tiddlers/tests/test-markdown-frontmatter.js` (covers par
 
 ## Dynamic store config
 
-`wiki/tiddlers/vault-loader/tiddlywiki.files`:
+Generated at runtime by `cli.js` and written to `.twillm-wiki/tiddlers/vault-loader/tiddlywiki.files`. The file in `template-wiki/` is a placeholder — overwritten every run with an absolute path to the user's vault.
+
+Shape of the generated file:
 
 ```json
 {
   "directories": [
     {
-      "path": "../../../vault",
+      "path": "<absolute path to user's vault>",
       "filesRegExp": "^.*\\.(md|tid)$",
       "isTiddlerFile": true,
       "searchSubdirectories": true,
@@ -92,29 +95,22 @@ Tests in `editions/test/tiddlers/tests/test-markdown-frontmatter.js` (covers par
 }
 ```
 
-`saveFilter: [!is[system]]` routes all non-system tiddler saves to `vault/`.
+`saveFilter: [!is[system]]` routes all non-system tiddler saves to the vault directory.
 
-## TODOs — ordered by priority
+## TODOs
 
-- [x] Audit TW MCP server (wikilabs/tw-mcp). Toolset comprehensive but proxy/takeover unreliable; plugin has saveFilter bug. **Dropped.**
+- [x] Audit TW MCP server (wikilabs/tw-mcp). Toolset comprehensive but proxy/takeover unreliable; plugin has saveFilter bug. Dropped.
 - [x] Markdown YAML frontmatter deserializer. Now part of the `tiddlywiki/markdown` plugin upstream.
 - [x] Markdown YAML frontmatter serializer. Same.
 - [x] Boot-ordering fix so plugin deserializers are available at file-load time.
 - [x] TiddlyWiki server config with live sync via dynamic store.
-- [ ] **CLAUDE.md** — workflow guidance for the LLM. Topics: how to add a new tiddler (create a `.md` in `vault/`), field conventions (title, tags, rating), Markdown vs wikitext policy, when to use `.tid` vs `.md`, linking (wiki-style `[[Target]]` links work in TW).
-- [ ] **tw5-graph** plugin — [https://github.com/flibbles/tw5-graph](https://github.com/flibbles/tw5-graph). Graph view of tiddlers and their links. Requires vis-network. Low star count (~30), may have rough edges — note any issues in smoke testing.
-- [ ] **"Why TiddlyWiki" section** in README — Jeremy to rewrite in own voice.
-- [ ] **Land `bidirectional-filesystem` upstream** — once PR #9806 merges and a TW release containing it is published, README setup instructions can recommend `npm install -g tiddlywiki` instead of building from source.
+- [x] CLI entry (`cli.js`) + drop-in flow for external vaults.
+- [ ] **tw5-graph plugin** — [https://github.com/flibbles/tw5-graph](https://github.com/flibbles/tw5-graph). Graph view of tiddlers and their links. Requires vis-network. Low star count (~30), may have rough edges — note any issues in smoke testing.
+- [ ] **Land `bidirectional-filesystem` upstream** — once PR #9806 merges and a TW release containing it is published, the `tiddlywiki` dep in package.json can move from a github branch ref to a normal version pin.
+- [ ] **Cross-platform smoke test** — cli.js was developed on macOS; verify on Linux and Windows (path resolution, signal handling, npm script invocation).
 
 ## Risks to flag
 
 - `bidirectional-filesystem` is unmerged. If it changes shape before merging, `tiddlywiki.files` config may need updating.
-- LLM wikitext generation will be noisier than Markdown; keep the default policy Markdown-only when CLAUDE.md is drafted.
+- LLM wikitext generation will be noisier than Markdown; keep the default policy Markdown-only.
 - tw5-graph has ~30 stars and may be rough.
-
-## Working conventions
-
-- Commit each logical unit of work separately with descriptive messages.
-- If a TODO turns out to be more complex than expected, open a new TODO rather than shipping something incomplete.
-- Prefer `TODO:` comments in code over silent gaps.
-- The LLM edits files in `vault/` directly. No MCP. No copying/seeding.

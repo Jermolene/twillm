@@ -1,14 +1,28 @@
 {
 	"name": "twillm",
 	"version": "0.0.1",
-	"description": "TiddlyWiki-based LLM knowledge wiki",
+	"description": "TiddlyWiki served live over your Markdown vault — drop-in viewer for LLM-authored knowledge bases",
+	"keywords": [
+		"tiddlywiki",
+		"obsidian",
+		"llm",
+		"vault",
+		"knowledge-base",
+		"markdown",
+		"karpathy"
+	],
+	"homepage": "https://github.com/Jermolene/twillm",
+	"bugs": {
+		"url": "https://github.com/Jermolene/twillm/issues"
+	},
 	"bin": {
 		"twillm": "./cli.js"
 	},
 	"files": [
 		"cli.js",
 		"template-wiki/",
-		"README.md"
+		"README.md",
+		"LICENSE"
 	],
 	"scripts": {
 		"start": "node ./cli.js vault",
@@ -16,6 +30,9 @@
 	},
 	"dependencies": {
 		"tiddlywiki": "github:TiddlyWiki/TiddlyWiki5#bidirectional-filesystem"
+	},
+	"engines": {
+		"node": ">=22"
 	},
 	"repository": {
 		"type": "git",
