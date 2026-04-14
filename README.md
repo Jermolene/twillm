@@ -16,13 +16,9 @@ A TiddlyWiki-based LLM knowledge wiki, inspired by [Andrej Karpathy's LLM Wiki p
 ```
 twillm/
 ├── vault/                     # Markdown files with YAML frontmatter — the source of truth
-├── wiki/
-│   ├── tiddlywiki.info        # Wiki configuration
-│   └── tiddlers/              # System tiddlers + dynamic-store shim pointing at vault/
-└── tiddlywiki-wrapper/        # Custom boot (temporary, see below)
-    ├── start.js               # CLI entry point
-    ├── markdown-deserializer.js
-    └── yaml.js
+└── wiki/
+    ├── tiddlywiki.info        # Wiki configuration
+    └── tiddlers/              # System tiddlers + dynamic-store shim pointing at vault/
 ```
 
 The vault is declared as a TiddlyWiki *dynamic store*. The server loads it at boot and watches it live via chokidar — external edits (from your coding agent, another editor, or `git pull`) are picked up automatically and reflected in the browser. Tiddlers edited in the browser are written back to the vault as Markdown files.
@@ -32,7 +28,7 @@ The LLM works on the vault directly using normal file tools (read/write/edit). T
 ## Prerequisites
 
 - **Node.js 22** or later
-- **TiddlyWiki** built from the [`bidirectional-filesystem` branch](https://github.com/TiddlyWiki/TiddlyWiki5/pull/9806), globally linked. This branch adds live filesystem watching (`dynamicStore` in `tiddlywiki.files`), which is load-bearing for the sync story — the standard `tiddlywiki` npm release will not work.
+- **TiddlyWiki** built from the [`bidirectional-filesystem` branch](https://github.com/TiddlyWiki/TiddlyWiki5/pull/9806), globally linked. This branch adds live filesystem watching (`dynamicStore` in `tiddlywiki.files`) plus the YAML frontmatter deserializer/serializer in the Markdown plugin, both load-bearing for twillm. The standard `tiddlywiki` npm release will not work.
 
 ## Setup
 
@@ -69,12 +65,6 @@ npm run build
 
 Renders all Markdown tiddlers in the vault as static HTML files in `wiki/output/`.
 
-### Run tests
-
-```bash
-npm test
-```
-
 ### Working with an LLM
 
 Point your coding agent (Claude Code, Cursor, etc.) at this directory. It edits the `.md` files in `vault/` directly. TiddlyWiki's watcher sees the changes and updates the browser without a reload.
@@ -97,12 +87,6 @@ The YAML frontmatter is extracted into native TiddlyWiki fields:
 - **Arrays** on list fields (tags, list) become TiddlyWiki bracketed lists
 - **Strings** are stored as-is
 - **Other types** (objects, booleans) are stored as JSON
-
-## Tiddlywiki-wrapper
-
-The `tiddlywiki-wrapper/` directory contains a thin shim around the `tiddlywiki` CLI. It exists because TiddlyWiki's boot sequence registers deserializer modules *after* loading wiki files from disk, so a plugin-provided deserializer can't process `.md` files at boot time. The wrapper registers the YAML frontmatter deserializer before booting TW.
-
-This is temporary. It will be removed once the deserializer is merged into TiddlyWiki core. See [tiddlywiki-wrapper/README.md](tiddlywiki-wrapper/README.md) for details.
 
 ## Status
 

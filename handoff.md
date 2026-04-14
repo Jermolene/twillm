@@ -11,7 +11,7 @@ A TiddlyWiki-based variant of [Karpathy's LLM Wiki pattern](https://gist.github.
 ├── handoff.md                  # This file — working brief
 ├── CLAUDE.md                   # LLM schema (TODO)
 ├── README.md                   # End-user docs
-├── package.json                # npm scripts (test, start, build)
+├── package.json                # npm scripts (start, build)
 ├── .gitignore
 ├── vault/                      # Markdown files with YAML frontmatter — the LLM's working directory
 └── wiki/                       # TiddlyWiki wiki folder
@@ -19,18 +19,21 @@ A TiddlyWiki-based variant of [Karpathy's LLM Wiki pattern](https://gist.github.
     └── tiddlers/
         ├── $__SiteTitle.tid
         ├── $__SiteSubtitle.tid
+        ├── $__config_SyncPollingInterval.tid
         └── vault-loader/
             └── tiddlywiki.files  # Declares ../../../vault as a dynamic store
 ```
 
-Plus `tiddlywiki-wrapper/` — a temporary shim (see that directory's README).
-
 ## Tech stack
 
-- **TiddlyWiki** on the `bidirectional-filesystem` branch (PR [#9806](https://github.com/TiddlyWiki/TiddlyWiki5/pull/9806)). This adds `dynamicStore` support to `tiddlywiki.files` — filesystem watching via chokidar. **Load-bearing.**
-- **`tiddlywiki/markdown`** plugin — renders `.md` tiddler content (body only, not frontmatter)
+- **TiddlyWiki** on the `bidirectional-filesystem` branch (PR [#9806](https://github.com/TiddlyWiki/TiddlyWiki5/pull/9806)). This branch carries the load-bearing pieces:
+  - `dynamicStore` support in `tiddlywiki.files` — chokidar-based filesystem watching
+  - YAML frontmatter deserializer + serializer in `plugins/tiddlywiki/markdown/`
+  - Boot-ordering fix so plugin-provided deserializers are available when wiki tiddler files load
+  - `tiddlerserializer` module type for round-tripping non-`text/vnd.tiddlywiki` tiddlers as single files (no `.meta` sidecar)
+- **`tiddlywiki/markdown`** plugin — renders `.md` tiddler bodies, extracts YAML frontmatter at boot, and writes it back on save
 - **`tiddlywiki/tiddlyweb`** plugin — HTTP server for the browser
-- **Custom YAML frontmatter deserializer** in `tiddlywiki-wrapper/` — extracts frontmatter into tiddler fields at boot
+- **`tiddlywiki/filesystem`** plugin — filesystem syncadaptor with dynamic store watcher
 - **Node.js 22**
 
 ## Architecture rationale
@@ -43,24 +46,18 @@ This is the third architecture we tried. The first two failed:
 
 3. **Current: LLM edits `vault/` directly via file tools; TW watches it** — simplest possible. Matches Karpathy's Obsidian model (filesystem is source of truth, watcher picks up changes). No MCP server, no process coordination, no duplication.
 
-## YAML frontmatter deserializer
+## YAML frontmatter (deserializer + serializer)
 
-In `tiddlywiki-wrapper/`. Converts Markdown frontmatter into tiddler fields at boot time:
+Both live in TiddlyWiki's `plugins/tiddlywiki/markdown/` (in the `bidirectional-filesystem` branch):
+- `frontmatter-deserializer.js` (module-type: tiddlerdeserializer for `text/x-markdown`)
+- `frontmatter-serializer.js` (module-type: tiddlerserializer for `text/x-markdown`)
+- `yaml.js` (minimal js-yaml-API-compatible parser; library module)
 
-- **Arrays on list fields** (tags, list) → `$tw.utils.stringifyList()`: `[concept, multi word tag]` → `concept [[multi word tag]]`
-- **Strings** → as-is
-- **Non-string/array values** (objects, booleans) → `JSON.stringify()`
-- **Numbers** → `String()`
+Round-trip:
+- **Load**: `---` YAML frontmatter → tiddler fields. Arrays on list fields (tags, list) → TW bracketed lists. Other non-string values → JSON. `created`/`modified` ignored. Existing tags merged with frontmatter tags.
+- **Save**: tiddler fields → YAML frontmatter, body → after the closing `---`. `text`/`created`/`modified`/`bag`/`revision` skipped from frontmatter. `type: text/x-markdown` omitted (default for `.md`). List fields → YAML arrays. Title emitted first.
 
-Field collision policy:
-- `title` — frontmatter wins over filename
-- `tags` — merged with any existing tags
-- `created`/`modified` — ignored (defer to TW timestamps)
-- `type` — frontmatter wins
-
-Lives outside the wiki folder (as a plain Node module, not a TW plugin) because TiddlyWiki registers `tiddlerdeserializer` modules *after* loading wiki files from disk. The wrapper registers ours pre-boot via `$tw.modules.define()`. Temporary; planned for upstream merge into the Markdown plugin.
-
-42 unit tests in `tiddlywiki-wrapper/tests/` (minimal YAML parser).
+Tests in `editions/test/tiddlers/tests/test-markdown-frontmatter.js` (covers parser, deserializer, serializer, and round-trip).
 
 ## Dynamic store config
 
@@ -90,12 +87,14 @@ Lives outside the wiki folder (as a plain Node module, not a TW plugin) because 
 ## TODOs — ordered by priority
 
 - [x] Audit TW MCP server (wikilabs/tw-mcp). Toolset comprehensive but proxy/takeover unreliable; plugin has saveFilter bug. **Dropped.**
-- [x] Markdown YAML frontmatter deserializer. Lives in `tiddlywiki-wrapper/`.
+- [x] Markdown YAML frontmatter deserializer. Now part of the `tiddlywiki/markdown` plugin upstream.
+- [x] Markdown YAML frontmatter serializer. Same.
+- [x] Boot-ordering fix so plugin deserializers are available at file-load time.
 - [x] TiddlyWiki server config with live sync via dynamic store.
 - [ ] **CLAUDE.md** — workflow guidance for the LLM. Topics: how to add a new tiddler (create a `.md` in `vault/`), field conventions (title, tags, rating), Markdown vs wikitext policy, when to use `.tid` vs `.md`, linking (wiki-style `[[Target]]` links work in TW).
 - [ ] **tw5-graph** plugin — [https://github.com/flibbles/tw5-graph](https://github.com/flibbles/tw5-graph). Graph view of tiddlers and their links. Requires vis-network. Low star count (~30), may have rough edges — note any issues in smoke testing.
 - [ ] **"Why TiddlyWiki" section** in README — Jeremy to rewrite in own voice.
-- [ ] **Upstream PRs** — (a) merge YAML frontmatter deserializer into `tiddlywiki/markdown` plugin, so we can delete `tiddlywiki-wrapper/`; (b) if we ever want MCP back, PR to wikilabs/tw-mcp fixing `persistTiddler` to respect `$tw.boot.dynamicStores`.
+- [ ] **Land `bidirectional-filesystem` upstream** — once PR #9806 merges and a TW release containing it is published, README setup instructions can recommend `npm install -g tiddlywiki` instead of building from source.
 
 ## Risks to flag
 
