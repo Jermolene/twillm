@@ -67,13 +67,23 @@ Renders all Markdown tiddlers in the vault as static HTML files in `wiki/output/
 
 Point your coding agent (Claude Code, Cursor, etc.) at this directory. It edits the `.md` files in `vault/` directly. TiddlyWiki's watcher sees the changes and updates the browser without a reload.
 
-Conventions for the LLM are in [CLAUDE.md](CLAUDE.md): file format, field policy, when to use `.md` vs `.tid`, what directories to leave alone. **Claude Code reads `CLAUDE.md` automatically** at session start. Other agents need their own pointer:
+#### Conventions for your agent
 
-- **Cursor** — copy or symlink `CLAUDE.md` to `.cursorrules`
-- **Aider** — pass `--read CLAUDE.md` or copy to `CONVENTIONS.md`
-- **Other agents** — point them at `CLAUDE.md` via whatever instruction-loading mechanism they support
+Most of what your agent needs to know — Markdown, YAML frontmatter, `[[wiki links]]`, where vault files live — it already knows from generic Markdown/Obsidian conventions. There are a few twillm-specific points you may want to add to your agent instructions (`CLAUDE.md`, `.cursorrules`, etc.):
 
-PRs adding native config files for other agents are welcome.
+```markdown
+## Notes for editing this vault
+
+- The wiki at http://localhost:8080 (when running) reflects vault edits live via filesystem watching.
+- Frontmatter `title` wins over filename when they differ; keep them in sync where you can.
+- Don't include `created`, `modified`, or `type` in frontmatter — TiddlyWiki manages timestamps,
+  and `.md` extension implies the type. They'll round-trip out anyway.
+- List fields (`tags`, `list`) should be YAML arrays: `tags: [concept, multi word tag]`.
+- For TiddlyWiki UI tiddlers (wikitext, macros, dashboards) use `.tid` instead of `.md`.
+- Don't write to any wiki/ directory if one exists; that's TiddlyWiki's working area.
+```
+
+(twillm itself does not write any agent-instruction files into your repo.)
 
 ## Tiddler format
 
