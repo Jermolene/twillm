@@ -28,24 +28,22 @@ The LLM works on the vault directly using normal file tools (read/write/edit). T
 ## Prerequisites
 
 - **Node.js 22** or later
-- **TiddlyWiki** built from the [`bidirectional-filesystem` branch](https://github.com/TiddlyWiki/TiddlyWiki5/pull/9806), globally linked. This branch adds live filesystem watching (`dynamicStore` in `tiddlywiki.files`) plus the YAML frontmatter deserializer/serializer in the Markdown plugin, both load-bearing for twillm. The standard `tiddlywiki` npm release will not work.
+
+TiddlyWiki is pulled in as an npm dependency from the [`bidirectional-filesystem` branch](https://github.com/TiddlyWiki/TiddlyWiki5/pull/9806), which carries the load-bearing pieces for twillm: live filesystem watching (`dynamicStore` in `tiddlywiki.files`) and the YAML frontmatter deserializer/serializer in the Markdown plugin. The standard `tiddlywiki` npm release will not work.
 
 ## Setup
 
 ```bash
-# Build and link the required TiddlyWiki branch
-git clone -b bidirectional-filesystem https://github.com/TiddlyWiki/TiddlyWiki5.git
-cd TiddlyWiki5
-npm install
-npm link
-cd ..
-
-# Clone and use twillm
 git clone https://github.com/Jermolene/twillm.git
 cd twillm
+npm install
 ```
 
-No `npm install` is needed in the twillm directory — the project has no npm dependencies of its own. TiddlyWiki is resolved from your global link.
+To pull the latest commits from the TiddlyWiki branch later:
+
+```bash
+npm update tiddlywiki
+```
 
 ## Usage
 

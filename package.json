@@ -6,6 +6,9 @@
 		"start": "tiddlywiki wiki --listen",
 		"build": "tiddlywiki wiki --render '[type[text/x-markdown]]' '[encodeuricomponent[]addsuffix[.html]]' text/plain '$:/core/templates/static.tiddler.html'"
 	},
+	"dependencies": {
+		"tiddlywiki": "github:TiddlyWiki/TiddlyWiki5#bidirectional-filesystem"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/Jermolene/twillm.git"

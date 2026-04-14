@@ -26,7 +26,7 @@ A TiddlyWiki-based variant of [Karpathy's LLM Wiki pattern](https://gist.github.
 
 ## Tech stack
 
-- **TiddlyWiki** on the `bidirectional-filesystem` branch (PR [#9806](https://github.com/TiddlyWiki/TiddlyWiki5/pull/9806)). This branch carries the load-bearing pieces:
+- **TiddlyWiki** pulled in as a git dependency from the `bidirectional-filesystem` branch (PR [#9806](https://github.com/TiddlyWiki/TiddlyWiki5/pull/9806)). `npm install` fetches it; `npm update tiddlywiki` re-pulls. This branch carries the load-bearing pieces:
   - `dynamicStore` support in `tiddlywiki.files` — chokidar-based filesystem watching
   - YAML frontmatter deserializer + serializer in `plugins/tiddlywiki/markdown/`
   - Boot-ordering fix so plugin-provided deserializers are available when wiki tiddler files load
