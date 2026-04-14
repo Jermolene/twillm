@@ -11,6 +11,9 @@ output/
 # TiddlyWiki cache/state
 .tw-mcp/
 
+# twillm working directory (materialised wiki)
+.twillm-wiki/
+
 # Obsidian per-user state (keep shared config like community-plugins.json)
 vault/.obsidian/workspace.json
 vault/.obsidian/workspace-mobile.json

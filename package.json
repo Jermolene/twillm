@@ -2,9 +2,17 @@
 	"name": "twillm",
 	"version": "0.0.1",
 	"description": "TiddlyWiki-based LLM knowledge wiki",
+	"bin": {
+		"twillm": "./cli.js"
+	},
+	"files": [
+		"cli.js",
+		"template-wiki/",
+		"README.md"
+	],
 	"scripts": {
-		"start": "tiddlywiki wiki --listen",
-		"build": "tiddlywiki wiki --render '[type[text/x-markdown]]' '[encodeuricomponent[]addsuffix[.html]]' text/plain '$:/core/templates/static.tiddler.html'"
+		"start": "node ./cli.js vault",
+		"build": "node ./cli.js vault -- --render '[type[text/x-markdown]]' '[encodeuricomponent[]addsuffix[.html]]' text/plain '$:/core/templates/static.tiddler.html'"
 	},
 	"dependencies": {
 		"tiddlywiki": "github:TiddlyWiki/TiddlyWiki5#bidirectional-filesystem"

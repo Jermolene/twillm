@@ -9,20 +9,30 @@ A TiddlyWiki-based variant of [Karpathy's LLM Wiki pattern](https://gist.github.
 ```
 ./
 ├── handoff.md                  # This file — working brief
-├── CLAUDE.md                   # LLM schema (TODO)
+├── CLAUDE.md                   # Conventions for working on twillm (this repo)
 ├── README.md                   # End-user docs
-├── package.json                # npm scripts (start, build)
+├── package.json                # bin: twillm → ./cli.js; deps: tiddlywiki
+├── cli.js                      # Entry point: detects vault, materialises wiki, spawns TW
 ├── .gitignore
-├── vault/                      # Markdown files with YAML frontmatter — the LLM's working directory
-└── wiki/                       # TiddlyWiki wiki folder
+├── vault/                      # Test fixture — sample LLM-authored content
+└── template-wiki/              # Wiki template materialised into .twillm-wiki/ at run time
     ├── tiddlywiki.info
     └── tiddlers/
         ├── $__SiteTitle.tid
         ├── $__SiteSubtitle.tid
         ├── $__config_SyncPollingInterval.tid
         └── vault-loader/
-            └── tiddlywiki.files  # Declares ../../../vault as a dynamic store
+            └── tiddlywiki.files  # Overwritten at run time with absolute vault path
 ```
+
+End-user run path:
+
+```
+$ cd my-vault-repo
+$ npx github:Jermolene/twillm
+```
+
+`cli.js` detects the vault, materialises `.twillm-wiki/` (dot-prefixed so Obsidian ignores it), writes the dynamic-store config pointing at the absolute vault path, then spawns `tiddlywiki .twillm-wiki/ --listen`.
 
 ## Tech stack
 
