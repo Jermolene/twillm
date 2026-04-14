@@ -12,6 +12,7 @@ A small knowledge base on the building blocks of modern large language models, w
 - [[Multi-Head Attention]] — running self-attention in parallel across subspaces
 - [[Attention Mechanism]] — the general framework
 - [[Bahdanau Attention]] — the historical predecessor
+- [[Layer Normalization]] — keeping activations on a stable scale
 
 ## Position
 
