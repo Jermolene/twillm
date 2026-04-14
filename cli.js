@@ -4,8 +4,8 @@
 twillm CLI.
 
 Detects the user's Markdown vault, materialises a TiddlyWiki working
-directory at .twillm-wiki/ in the cwd (idempotent), points it at the
-vault as a dynamic store, and starts the TW server.
+directory at twillm-wiki/ in the cwd (idempotent, commit-friendly),
+points it at the vault as a dynamic store, and starts the TW server.
 
 Usage:
     twillm [vault-path] [-- ...tiddlywiki args]
@@ -22,7 +22,7 @@ const cp = require("child_process");
 
 const HELP = `Usage: twillm [vault-path] [-- ...tiddlywiki args]
 
-Materialises a TiddlyWiki working directory (.twillm-wiki/) in the
+Materialises a TiddlyWiki working directory (twillm-wiki/) in the
 current directory, points it at your Markdown vault as a live-watched
 dynamic store, and starts the TiddlyWiki server.
 
@@ -83,9 +83,14 @@ function materialiseWiki(wikiDir,templateDir) {
 function writeVaultLoader(wikiDir,vaultPath) {
 	const loaderDir = path.join(wikiDir,"tiddlers","vault-loader");
 	fs.mkdirSync(loaderDir,{recursive: true});
+	// Use a relative path so the file is portable across collaborators.
+	// Falls back to absolute if the vault is on a different drive (Windows)
+	// and path.relative produces something non-usable.
+	const relPath = path.relative(loaderDir,vaultPath);
+	const storePath = (relPath && !path.isAbsolute(relPath)) ? relPath : vaultPath;
 	const spec = {
 		directories: [{
-			path: vaultPath,
+			path: storePath,
 			filesRegExp: "^.*\\.(md|tid)$",
 			isTiddlerFile: true,
 			searchSubdirectories: true,
@@ -150,7 +155,7 @@ process.stderr.write("twillm: serving vault at " + vaultPath + "\n");
 
 const packageDir = __dirname;
 const templateDir = path.join(packageDir,"template-wiki");
-const wikiDir = path.resolve(process.cwd(),".twillm-wiki");
+const wikiDir = path.resolve(process.cwd(),"twillm-wiki");
 
 materialiseWiki(wikiDir,templateDir);
 writeVaultLoader(wikiDir,vaultPath);

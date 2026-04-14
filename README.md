@@ -38,7 +38,16 @@ twillm auto-detects the vault directory:
 2. Otherwise looks for `vault/`, `notes/`, or `content/` in the current directory
 3. Falls back to the current directory if it contains an `.obsidian/` folder
 
-twillm materialises a `.twillm-wiki/` working directory in your repo (dot-prefixed, so Obsidian ignores it; gitignore it). You can drop custom wikitext (`.tid`) tiddlers into `.twillm-wiki/tiddlers/` to extend the wiki.
+twillm materialises a `twillm-wiki/` working directory in your repo on first run. This is **commit-friendly**: any customisations you make (wikitext `.tid` tiddlers, themes, plugins, site title) live there and can be shared via git alongside your vault. The dynamic-store config inside it uses relative paths so it works for all collaborators.
+
+A few things inside `twillm-wiki/` are transient and should be gitignored:
+
+```
+twillm-wiki/output/
+twillm-wiki/tiddlers/$__StoryList.tid
+```
+
+**Obsidian users:** `twillm-wiki/` contains only `.tid` and config files, which Obsidian doesn't index as notes. The folder shows up in Obsidian's file explorer but contributes nothing to the note graph. If you want it hidden entirely, add `twillm-wiki/` to Settings → Files & Links → Excluded Files.
 
 To pull updates: `npx --prefer-online github:Jermolene/twillm` forces a re-check of the latest commit.
 
@@ -90,12 +99,12 @@ git clone https://github.com/Jermolene/twillm.git
 cd twillm
 npm install     # pulls TW from the bidirectional-filesystem branch
 npm start       # serves vault/ on http://localhost:8080
-npm run build   # renders vault/ to .twillm-wiki/output/*.html
+npm run build   # renders vault/ to twillm-wiki/output/*.html
 ```
 
 `npm update tiddlywiki` pulls the latest commits from the TW branch.
 
-The repo's own `vault/` is the test fixture; the `template-wiki/` directory is what gets materialised into a user's `.twillm-wiki/` when they install.
+The repo's own `vault/` is the test fixture; the `template-wiki/` directory is what gets materialised into a user's `twillm-wiki/` on first run.
 
 ## Status
 

@@ -8,11 +8,10 @@ output/
 # Claude Code local settings
 .claude/
 
-# TiddlyWiki cache/state
-.tw-mcp/
-
-# twillm working directory (materialised wiki)
-.twillm-wiki/
+# twillm working directory — customisations are commit-friendly, but these
+# pieces are either generated or per-user session state
+twillm-wiki/output/
+twillm-wiki/tiddlers/$__StoryList.tid
 
 # Obsidian per-user state (keep shared config like community-plugins.json)
 vault/.obsidian/workspace.json
