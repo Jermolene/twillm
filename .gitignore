@@ -10,3 +10,10 @@ output/
 
 # TiddlyWiki cache/state
 .tw-mcp/
+
+# Obsidian per-user state (keep shared config like community-plugins.json)
+vault/.obsidian/workspace.json
+vault/.obsidian/workspace-mobile.json
+vault/.obsidian/workspaces.json
+vault/.obsidian/cache/
+vault/.obsidian/appearance.json
