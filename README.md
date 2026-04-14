@@ -69,6 +69,14 @@ Renders all Markdown tiddlers in the vault as static HTML files in `wiki/output/
 
 Point your coding agent (Claude Code, Cursor, etc.) at this directory. It edits the `.md` files in `vault/` directly. TiddlyWiki's watcher sees the changes and updates the browser without a reload.
 
+Conventions for the LLM are in [CLAUDE.md](CLAUDE.md): file format, field policy, when to use `.md` vs `.tid`, what directories to leave alone. **Claude Code reads `CLAUDE.md` automatically** at session start. Other agents need their own pointer:
+
+- **Cursor** — copy or symlink `CLAUDE.md` to `.cursorrules`
+- **Aider** — pass `--read CLAUDE.md` or copy to `CONVENTIONS.md`
+- **Other agents** — point them at `CLAUDE.md` via whatever instruction-loading mechanism they support
+
+PRs adding native config files for other agents are welcome.
+
 ## Tiddler format
 
 Markdown files with YAML frontmatter:
