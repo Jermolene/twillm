@@ -16,9 +16,30 @@ or treats the cwd as the vault if .obsidian/ is present.
 
 "use strict";
 
-var path = require("path");
-var fs = require("fs");
-var cp = require("child_process");
+const path = require("path");
+const fs = require("fs");
+const cp = require("child_process");
+
+const HELP = `Usage: twillm [vault-path] [-- ...tiddlywiki args]
+
+Materialises a TiddlyWiki working directory (.twillm-wiki/) in the
+current directory, points it at your Markdown vault as a live-watched
+dynamic store, and starts the TiddlyWiki server.
+
+Vault detection (in order):
+  1. Explicit vault-path argument
+  2. ./vault, ./notes, or ./content in the current directory
+  3. The current directory if it contains .obsidian/
+
+By default the server listens on http://localhost:8080. To pass other
+TiddlyWiki commands instead of --listen, use -- as a separator:
+
+  twillm vault -- --render '[type[text/x-markdown]]' '[encodeuricomponent[]addsuffix[.html]]' text/plain '$:/core/templates/static.tiddler.html'
+
+Options:
+  -h, --help     Show this help and exit
+  -v, --version  Show version and exit
+`;
 
 // --- Vault detection ---
 
@@ -26,8 +47,8 @@ function detectVault(arg) {
 	if(arg) {
 		return path.resolve(arg);
 	}
-	for(var name of ["vault","notes","content"]) {
-		var candidate = path.resolve(process.cwd(),name);
+	for(const name of ["vault","notes","content"]) {
+		const candidate = path.resolve(process.cwd(),name);
 		if(fs.existsSync(candidate) && fs.statSync(candidate).isDirectory()) {
 			return candidate;
 		}
@@ -42,9 +63,9 @@ function detectVault(arg) {
 
 function copyDir(src,dest) {
 	fs.mkdirSync(dest,{recursive: true});
-	for(var entry of fs.readdirSync(src,{withFileTypes: true})) {
-		var s = path.join(src,entry.name);
-		var d = path.join(dest,entry.name);
+	for(const entry of fs.readdirSync(src,{withFileTypes: true})) {
+		const s = path.join(src,entry.name);
+		const d = path.join(dest,entry.name);
 		if(entry.isDirectory()) {
 			copyDir(s,d);
 		} else {
@@ -60,9 +81,9 @@ function materialiseWiki(wikiDir,templateDir) {
 }
 
 function writeVaultLoader(wikiDir,vaultPath) {
-	var loaderDir = path.join(wikiDir,"tiddlers","vault-loader");
+	const loaderDir = path.join(wikiDir,"tiddlers","vault-loader");
 	fs.mkdirSync(loaderDir,{recursive: true});
-	var spec = {
+	const spec = {
 		directories: [{
 			path: vaultPath,
 			filesRegExp: "^.*\\.(md|tid)$",
@@ -82,13 +103,27 @@ function writeVaultLoader(wikiDir,vaultPath) {
 	);
 }
 
-// --- Main ---
+// --- Argument parsing ---
 
-var argv = process.argv.slice(2);
-var vaultArg = null;
-var passthrough = [];
-var seenSeparator = false;
-for(var arg of argv) {
+const argv = process.argv.slice(2);
+
+// Handle --help / --version before anything else
+for(const arg of argv) {
+	if(arg === "-h" || arg === "--help") {
+		process.stdout.write(HELP);
+		process.exit(0);
+	}
+	if(arg === "-v" || arg === "--version") {
+		const pkg = require(path.join(__dirname,"package.json"));
+		process.stdout.write(pkg.version + "\n");
+		process.exit(0);
+	}
+}
+
+let vaultArg = null;
+const passthrough = [];
+let seenSeparator = false;
+for(const arg of argv) {
 	if(arg === "--") {
 		seenSeparator = true;
 		continue;
@@ -102,26 +137,36 @@ for(var arg of argv) {
 	}
 }
 
-var vaultPath = detectVault(vaultArg);
+// --- Main ---
+
+const vaultPath = detectVault(vaultArg);
 if(!vaultPath || !fs.existsSync(vaultPath)) {
-	console.error("twillm: no vault found.");
-	console.error("Pass a vault path, or run from a directory containing vault/, notes/, content/, or .obsidian/.");
+	process.stderr.write("twillm: no vault found.\n");
+	process.stderr.write("Pass a vault path, or run from a directory containing vault/, notes/, content/, or .obsidian/.\n");
+	process.stderr.write("Run with --help for usage.\n");
 	process.exit(1);
 }
-console.error("twillm: serving vault at " + vaultPath);
+process.stderr.write("twillm: serving vault at " + vaultPath + "\n");
 
-var packageDir = __dirname;
-var templateDir = path.join(packageDir,"template-wiki");
-var wikiDir = path.resolve(process.cwd(),".twillm-wiki");
+const packageDir = __dirname;
+const templateDir = path.join(packageDir,"template-wiki");
+const wikiDir = path.resolve(process.cwd(),".twillm-wiki");
 
 materialiseWiki(wikiDir,templateDir);
 writeVaultLoader(wikiDir,vaultPath);
 
-var twBin = require.resolve("tiddlywiki/tiddlywiki.js");
+let twBin;
+try {
+	twBin = require.resolve("tiddlywiki/tiddlywiki.js");
+} catch(e) {
+	process.stderr.write("twillm: cannot find tiddlywiki package. Run `npm install` in " + packageDir + ".\n");
+	process.exit(1);
+}
+
 // If no TW commands were passed through, default to --listen
-var twArgs = passthrough.length > 0 ? passthrough : ["--listen"];
-var args = [twBin,wikiDir].concat(twArgs);
-var child = cp.spawn(process.execPath,args,{stdio: "inherit"});
+const twArgs = passthrough.length > 0 ? passthrough : ["--listen"];
+const args = [twBin,wikiDir].concat(twArgs);
+const child = cp.spawn(process.execPath,args,{stdio: "inherit"});
 child.on("exit",function(code,signal) {
 	process.exit(signal ? 1 : (code || 0));
 });
