@@ -2,6 +2,20 @@
 
 Notes for anyone working on twillm. End-user documentation is in [README.md](README.md). Agent instructions for editing this repo are in [CLAUDE.md](CLAUDE.md).
 
+## Quickstart
+
+```bash
+git clone https://github.com/Jermolene/twillm.git
+cd twillm
+npm install     # pulls TW from the bidirectional-filesystem branch
+npm start       # serves vault/ on http://localhost:8080
+npm run build   # renders vault/ to twillm-wiki/output/*.html
+```
+
+`npm update tiddlywiki` pulls the latest commits from the TW branch.
+
+The repo's own `vault/` is the test fixture; `template-wiki/` is what gets materialised into a user's `twillm-wiki/` on first run.
+
 ## Repo layout
 
 ```
@@ -87,8 +101,3 @@ Shape:
 
 `saveFilter: [!is[system]]` routes all non-system tiddler saves to the vault directory.
 
-## TODOs
-
-- [ ] **tw5-graph plugin** — [https://github.com/flibbles/tw5-graph](https://github.com/flibbles/tw5-graph). Graph view of tiddlers and their links. Requires vis-network. Low star count (~30), may have rough edges — note any issues in smoke testing.
-- [ ] **Land `bidirectional-filesystem` upstream** — once PR #9806 merges and a TW release containing it is published, the `tiddlywiki` dep in `package.json` can move from a github branch ref to a normal version pin.
-- [ ] **Cross-platform smoke test** — `cli.js` was developed on macOS; verify on Linux and Windows (path resolution, signal handling, npm script invocation).
