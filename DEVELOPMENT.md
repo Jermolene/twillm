@@ -33,9 +33,15 @@ In this repo, `twillm-wiki/` itself is gitignored — it's a dev-time build arti
 └── template-wiki/              # Wiki template materialised into twillm-wiki/ on first run
     ├── tiddlywiki.info
     └── tiddlers/
+        ├── $__DefaultTiddlers.tid
         ├── $__SiteTitle.tid
         ├── $__SiteSubtitle.tid
         ├── $__config_SyncPollingInterval.tid
+        ├── $__graph_Default.tid          # Full concept-map graph view
+        ├── $__graph_Neighbourhood.tid    # Neighbourhood graph view
+        ├── HelloThere.md                 # Landing page
+        ├── architecture.svg              # Architecture diagram (SVG + .meta)
+        ├── architecture.svg.meta
         └── vault-loader/
             └── tiddlywiki.files  # Placeholder; overwritten at run time
 ```
