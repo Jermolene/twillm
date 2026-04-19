@@ -1,14 +1,14 @@
 ---
 title: Multi-Head Attention
-tags: [concept, transformer, mechanism]
+tags: [Concept, Attention, Architecture]
 rating: 7
 ---
 
-Multi-head attention runs several [[Self-Attention]] (or [[Attention Mechanism|cross-attention]]) operations in parallel, each with its own learned projection matrices, then concatenates the results and projects them back to the model dimension.
+Runs several [[Self-Attention]] (or [[Attention Mechanism|cross-attention]]) operations in parallel, each with its own learned projection matrices, then concatenates the results and projects them back to the model dimension.
 
 ## Motivation
 
-A single attention head can only learn one pattern of what to attend to. Multiple heads let the model jointly attend to information from different representation subspaces — e.g. one head might track syntactic dependencies, another semantic similarity, another positional patterns.
+A single attention head can only learn one pattern of what to attend to. Multiple heads let the model jointly attend to information from different representation subspaces — one head might track syntactic dependencies, another semantic similarity, another positional patterns.
 
 ## Mechanics
 
@@ -23,7 +23,7 @@ Total parameters are the same as a single attention with dimension `d`, but the 
 
 ## In practice
 
-Modern LLMs use 16–128 heads. Variants like **Multi-Query Attention** and **Grouped-Query Attention** share keys and values across heads to reduce inference memory.
+Modern LLMs use 16–128 heads. Variants like **Multi-Query Attention** and **Grouped-Query Attention** share keys and values across heads to reduce [[KV Cache]] memory at inference time.
 
 ## See also
 

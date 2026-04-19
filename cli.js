@@ -75,9 +75,12 @@ function copyDir(src,dest) {
 }
 
 function materialiseWiki(wikiDir,templateDir) {
-	if(!fs.existsSync(wikiDir)) {
-		copyDir(templateDir,wikiDir);
-	}
+	// Copy every file from the template into the wiki directory, overwriting.
+	// Files in wikiDir that are not in templateDir (user's own tiddlers) are left alone.
+	// This means template updates propagate on every run; the tradeoff is that edits to
+	// shipped tiddlers (HelloThere, graph views) get overwritten — users who want to
+	// persist such edits should copy them into their vault or remove the $:/tags/twillm-shell tag.
+	copyDir(templateDir,wikiDir);
 }
 
 function writeVaultLoader(wikiDir,vaultPath) {
@@ -95,7 +98,9 @@ function writeVaultLoader(wikiDir,vaultPath) {
 			isTiddlerFile: true,
 			searchSubdirectories: true,
 			dynamicStore: {
-				saveFilter: "[!is[system]]",
+				// Exclude tiddlers that ship with twillm (HelloThere, graph views) so browser
+				// edits to them save back into twillm-wiki/, not the user's vault.
+				saveFilter: "[!is[system]!tag[$:/tags/twillm-shell]]",
 				watch: true,
 				debounce: 400
 			},
@@ -168,9 +173,25 @@ try {
 	process.exit(1);
 }
 
+// Resolve bundled plugins and pass them to TW via the ++ syntax
+// (loads plugin folders by absolute path; no TIDDLYWIKI_PLUGIN_PATH dance needed).
+function resolvePluginFolder(packageName,subpath) {
+	try {
+		const pkgJson = require.resolve(packageName + "/package.json");
+		return path.join(path.dirname(pkgJson),subpath);
+	} catch(e) {
+		return null;
+	}
+}
+
+const extraPlugins = [
+	resolvePluginFolder("tw5-graph","plugins/graph"),
+	resolvePluginFolder("tw5-vis-network","plugins/vis-network")
+].filter(Boolean).map((p) => "++" + p);
+
 // If no TW commands were passed through, default to --listen
 const twArgs = passthrough.length > 0 ? passthrough : ["--listen"];
-const args = [twBin,wikiDir].concat(twArgs);
+const args = [twBin].concat(extraPlugins,[wikiDir],twArgs);
 const child = cp.spawn(process.execPath,args,{stdio: "inherit"});
 child.on("exit",function(code,signal) {
 	process.exit(signal ? 1 : (code || 0));

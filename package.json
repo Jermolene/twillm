@@ -29,7 +29,9 @@
 		"build": "node ./cli.js vault -- --render '[type[text/x-markdown]]' '[encodeuricomponent[]addsuffix[.html]]' text/plain '$:/core/templates/static.tiddler.html'"
 	},
 	"dependencies": {
-		"tiddlywiki": "github:TiddlyWiki/TiddlyWiki5#bidirectional-filesystem"
+		"tiddlywiki": "github:TiddlyWiki/TiddlyWiki5#bidirectional-filesystem",
+		"tw5-graph": "github:flibbles/tw5-graph",
+		"tw5-vis-network": "github:flibbles/tw5-vis-network#v10.5.5"
 	},
 	"engines": {
 		"node": ">=22"

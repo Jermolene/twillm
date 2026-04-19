@@ -1,6 +1,6 @@
 ---
 title: Tokenization
-tags: [concept, nlp, foundational]
+tags: [Concept]
 rating: 8
 ---
 
@@ -8,7 +8,7 @@ The process of converting raw text into a sequence of integer IDs that a [[Trans
 
 ## Why not characters or words?
 
-- **Characters** — vocabulary is small (100s) but sequences become very long, hurting attention's O(n²) cost
+- **Characters** — vocabulary is small (100s) but sequences become very long, hurting [[Self-Attention]]'s O(n²) cost
 - **Words** — sequences are short, but vocabulary is unbounded (every misspelling, name, language is a new word) and most words appear rarely
 
 Subword tokenization splits the difference: common words become single tokens, rare words decompose into smaller pieces, no out-of-vocabulary failures.
@@ -27,8 +27,4 @@ Subword tokenization splits the difference: common words become single tokens, r
 - **The same string can tokenise differently depending on context.** "California" might be one token; " California" (with leading space) is a different one.
 - **Numbers tokenise weirdly.** Long numbers split into chunks (e.g. `1234567` → `12`, `34`, `56`, `7`), which is part of why models struggle with arithmetic.
 - **Vocab size affects model size.** Modern LLMs use 32K–256K tokens; the embedding and output projection matrices scale linearly with this.
-
-## See also
-
-- [[Transformer]]
-- [[KV Cache]] — cache size scales with token count, not character count
+- **[[KV Cache]] size** is per token — vocab choice indirectly affects inference memory.

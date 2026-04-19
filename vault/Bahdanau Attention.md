@@ -1,6 +1,6 @@
 ---
 title: Bahdanau Attention
-tags: [paper, attention, history]
+tags: [Paper, Attention]
 rating: 6
 ---
 
@@ -21,15 +21,10 @@ At each decoder step `t`:
 3. Context vector: `c_t = Σ α_{t,i} · h_i`
 4. Decoder uses `c_t` alongside its own state
 
-This is *additive attention* (the scoring function `a` is a small MLP). Later work — particularly the [[Transformer]] — used *multiplicative/dot-product* attention for efficiency.
+This is *additive attention* (the scoring function `a` is a small MLP). Later work — particularly the [[Transformer]] — used *multiplicative/dot-product* [[Attention Mechanism|attention]] for efficiency.
 
 ## Historical importance
 
 - First demonstration that attention solved the fixed-context bottleneck
 - Produced interpretable alignment matrices showing which source words mapped to which target words
-- Set the conceptual stage for the [[Attention Mechanism|general attention framework]] and eventually the Transformer
-
-## See also
-
-- [[Attention Mechanism]]
-- [[Transformer]]
+- Set the conceptual stage for the [[Attention Mechanism|general attention framework]] and eventually [[Self-Attention]] and the [[Transformer]]

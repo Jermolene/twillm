@@ -8,10 +8,11 @@ output/
 # Claude Code local settings
 .claude/
 
-# twillm working directory — customisations are commit-friendly, but these
-# pieces are either generated or per-user session state
-twillm-wiki/output/
-twillm-wiki/tiddlers/$__StoryList.tid
+# twillm working directory — in the twillm repo itself this is a dev-time
+# build artifact (materialised from template-wiki/ by cli.js). In end-user
+# repos twillm-wiki/ IS commit-friendly; only the transient pieces below
+# should be ignored.
+twillm-wiki/
 
 # Obsidian per-user state (keep shared config like community-plugins.json)
 vault/.obsidian/workspace.json

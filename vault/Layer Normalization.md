@@ -1,6 +1,6 @@
 ---
 title: Layer Normalization
-tags: [concept, transformer, training]
+tags: [Concept, Architecture]
 rating: 7
 ---
 
@@ -20,8 +20,8 @@ where `μ` and `σ²` are computed across the *features* of `x` (not across the 
 
 Two conventions:
 
-- **Post-LN** — original Transformer paper. LayerNorm applied *after* the residual addition. Trains poorly without learning-rate warmup; mostly abandoned.
-- **Pre-LN** — modern default (GPT-2 onward). LayerNorm applied *before* the attention/FFN sublayer, inside the residual path. Trains much more stably and is what virtually all current LLMs use.
+- **Post-LN** — original [[Transformer]] paper. LayerNorm applied *after* the residual addition. Trains poorly without learning-rate warmup; mostly abandoned.
+- **Pre-LN** — modern default (GPT-2 onward). LayerNorm applied *before* the [[Self-Attention]] / FFN sublayer, inside the residual path. Trains much more stably and is what virtually all current LLMs use.
 
 ## RMSNorm
 
@@ -32,8 +32,3 @@ RMSNorm(x) = γ · x / √(mean(x²) + ε)
 ```
 
 Drops the mean-subtraction and the bias term. Slightly cheaper to compute, slightly fewer parameters, and empirically works as well as full LayerNorm in deep transformer stacks.
-
-## See also
-
-- [[Transformer]]
-- [[Self-Attention]]

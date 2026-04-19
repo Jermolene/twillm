@@ -1,6 +1,6 @@
 ---
 title: KV Cache
-tags: [concept, inference, optimization]
+tags: [Concept, Inference]
 rating: 8
 ---
 
@@ -10,7 +10,7 @@ The Key-Value cache: an inference-time optimization for autoregressive [[Transfo
 
 When generating token `t`, a decoder-only model performs [[Self-Attention]] over all preceding tokens `0..t-1`. Naively, this means at each generation step the model recomputes `K` and `V` projections for every prior token — even though those tokens haven't changed.
 
-For a sequence of length `n`, generation is `O(n^2)` in total — and every subsequent token makes the problem worse.
+For a sequence of length `n`, generation is `O(n²)` in total — and every subsequent token makes the problem worse.
 
 ## The fix
 
@@ -32,15 +32,11 @@ cache_size = 2 · batch · seq_len · layers · heads · head_dim · bytes_per_e
 
 For a 70B model with 80 layers, 64 heads, head dim 128, at bf16 and a 32K context, the cache is tens of gigabytes per request. This is typically the dominant memory consumer during LLM inference, not the model weights.
 
+Cache size scales with [[Tokenization|tokens]], not characters — see [[Tokenization]].
+
 ## Related optimizations
 
-- **Multi-Query Attention / Grouped-Query Attention** — share K/V across [[Multi-Head Attention|heads]] to shrink the cache
+- **Multi-Query / Grouped-Query Attention** — share K/V across [[Multi-Head Attention|heads]] to shrink the cache
 - **Paged attention** (vLLM) — non-contiguous cache allocation to reduce fragmentation
 - **Quantized KV cache** — store K/V in int8 or int4 to trade accuracy for memory
 - **Sliding window / attention sink** — cap the cache size by dropping old tokens
-
-## See also
-
-- [[Transformer]]
-- [[Self-Attention]]
-- [[Multi-Head Attention]]

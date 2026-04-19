@@ -1,6 +1,6 @@
 ---
 title: RoPE
-tags: [concept, positional-encoding, transformer]
+tags: [Concept, Position]
 aliases: [Rotary Position Embedding, Rotary Positional Encoding]
 rating: 8
 ---
@@ -11,7 +11,7 @@ Rotary Position Embedding. A [[Positional Encoding]] scheme that encodes absolut
 
 Given a pair of dimensions `(2i, 2i+1)` in a query or key vector, RoPE rotates that 2D sub-vector by angle `mθ_i`, where `m` is the token's position and `θ_i = base^(-2i/d)` is a frequency that varies across dimension pairs (low `i` = high frequency, high `i` = low frequency).
 
-When you compute the dot product of a query at position `m` and a key at position `n`, the rotation angles partially cancel: the result depends on `m - n`, i.e. the *relative* position. Absolute position goes in, relative position comes out.
+When you compute the dot product of a query at position `m` and a key at position `n` in [[Self-Attention]], the rotation angles partially cancel: the result depends on `m - n`, i.e. the *relative* position. Absolute position goes in, relative position comes out.
 
 ## Why it matters
 
@@ -23,9 +23,3 @@ When you compute the dot product of a query at position `m` and a key at positio
 
 - Vanilla RoPE degrades sharply past training length; production long-context models use scaling tricks (position interpolation, NTK-aware scaling, YaRN)
 - Frequency base (`theta`, often 10000 or 500000) affects long-context behaviour significantly
-
-## See also
-
-- [[Positional Encoding]]
-- [[Self-Attention]]
-- [[Transformer]]

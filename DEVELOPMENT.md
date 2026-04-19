@@ -14,7 +14,9 @@ npm run build   # renders vault/ to twillm-wiki/output/*.html
 
 `npm update tiddlywiki` pulls the latest commits from the TW branch.
 
-The repo's own `vault/` is the test fixture; `template-wiki/` is what gets materialised into a user's `twillm-wiki/` on first run.
+The repo's own `vault/` is the test fixture; `template-wiki/` is the source that gets materialised into a user's `twillm-wiki/` on first run.
+
+In this repo, `twillm-wiki/` itself is gitignored — it's a dev-time build artifact, regenerated each `npm start` / `npm run build`. If you want to change what ships to users, edit `template-wiki/`. In end-user repos, `twillm-wiki/` is the opposite: commit-friendly (users' customisations live there).
 
 ## Repo layout
 

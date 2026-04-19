@@ -1,10 +1,10 @@
 ---
 title: Self-Attention
-tags: [concept, transformer, mechanism]
-rating: 7
+tags: [Concept, Attention, Architecture]
+rating: 9
 ---
 
-Self-attention is a specific application of the [[Attention Mechanism]] where a sequence attends to itself: the queries, keys, and values are all linear projections of the same input. This is the core operation inside the [[Transformer]] encoder.
+A specific application of the [[Attention Mechanism]] where a sequence attends to itself: the queries, keys, and values are all linear projections of the same input. The core operation inside the [[Transformer]].
 
 ## How it works
 
@@ -25,9 +25,10 @@ Each token's output is a weighted sum of *all* tokens' values, where the weights
 ## Variants
 
 - **Masked self-attention** — used in decoder blocks; future positions are masked out so each position only attends to itself and earlier positions
-- **Multi-head self-attention** — runs several independent self-attention operations in parallel with different learned projections, then concatenates
+- **[[Multi-Head Attention]]** — runs several independent self-attention operations in parallel and concatenates them
+- The [[KV Cache]] is what makes self-attention tractable at inference time
 
 ## See also
 
-- [[Attention Mechanism]]
-- [[Transformer]]
+- [[Attention Mechanism]] — the general framework
+- [[Transformer]] — where self-attention lives

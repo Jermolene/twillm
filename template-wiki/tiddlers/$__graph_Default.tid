@@ -1,0 +1,8 @@
+title: $:/graph/Default
+tags: $:/tags/twillm-shell
+template: $:/plugins/flibbles/graph/templates/live-graph
+filter: [!is[system]!tag[Topic]] [tag[Topic]] +[!tag[$:/tags/twillm-shell]]
+caption: Concept Map
+graph.graph: {"springLength":"150","springConstant":"0.04","gravitationalConstant":"-200"}
+graph.nodes: {"shape":"ellipse"}
+
