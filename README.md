@@ -20,7 +20,11 @@ Karpathy's pattern uses Obsidian as the viewer over an LLM-authored vault. Repla
 
 twillm bundles a TiddlyWiki build from the [`bidirectional-filesystem` branch](https://github.com/TiddlyWiki/TiddlyWiki5/pull/9806) which implements the required new functionality: live filesystem watching (`dynamicStore` in `tiddlywiki.files`) and the YAML frontmatter deserializer/serializer in the Markdown plugin. The standard `tiddlywiki` npm release will not work.
 
-## Usage (drop-in to an existing vault)
+## Usage
+
+You can try out twillm with your own data, or with the bundled demo vault.
+
+### If you already have a vault
 
 If you already have a Markdown vault (Obsidian, Karpathy-style, or just a folder of `.md` files):
 
@@ -48,6 +52,25 @@ twillm-wiki/tiddlers/$__StoryList.tid
 **Obsidian users:** `twillm-wiki/` contains only `.tid` and config files, which Obsidian doesn't index as notes. The folder shows up in Obsidian's file explorer but contributes nothing to the note graph. If you want it hidden entirely, add `twillm-wiki/` to Settings → Files & Links → Excluded Files.
 
 To pull updates: `npx --prefer-online github:Jermolene/twillm` forces a re-check of the latest commit.
+
+### If you do not already have a vault
+
+If you just want to try twillm without an existing vault:
+
+```bash
+git clone https://github.com/Jermolene/twillm.git
+cd twillm
+npm install
+npm start
+```
+
+This serves the bundled demo vault (`vault/`) at `http://localhost:8080`. To pick up the latest changes later:
+
+```bash
+git pull
+npm install
+npm start
+```
 
 ## Working with an LLM
 
