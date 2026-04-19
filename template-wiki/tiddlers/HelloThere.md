@@ -13,11 +13,11 @@ A live graph of the tiddlers, their tags, and their wiki links. Click a node to 
 
 <$graph.view $tiddler="$:/graph/Default"/>
 
-## Neighbourhood of Transformer
+## Neighbourhood of <$text text={{{ [all[tiddlers]!is[system]!tag[$:/tags/twillm-shell]first[]] }}}/>
 
-A focused graph of everything that links to or from [[Transformer]] — useful when a single hub concept is what you care about.
+A focused graph of everything that links to or from <$link to={{{ [all[tiddlers]!is[system]!tag[$:/tags/twillm-shell]first[]] }}}><$text text={{{ [all[tiddlers]!is[system]!tag[$:/tags/twillm-shell]first[]] }}}/></$link> — useful when a single hub concept is what you care about.
 
-<$graph.view $tiddler="$:/graph/Transformer Neighbourhood"/>
+<$graph.view $tiddler="$:/graph/Neighbourhood"/>
 
 ## Tiddlers by topic
 

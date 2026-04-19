@@ -1,10 +1,10 @@
-title: $:/graph/Transformer Neighbourhood
+title: $:/graph/Neighbourhood
 tags: $:/tags/twillm-shell
 template: $:/plugins/flibbles/graph/templates/live-graph
-filter: [[Transformer]]
+filter: [all[tiddlers]!is[system]!tag[$:/tags/twillm-shell]first[]]
 neighbors.incoming: 1
 neighbors.outgoing: 1
-caption: Transformer neighbourhood
+caption: Neighbourhood
 graph.graph: {"springLength":"80","springConstant":"0.12","gravitationalConstant":"-120","centralGravity":"0.2"}
 graph.nodes: {"shape":"box","color":"#d6e8ff"}
 graph.edges: {"smooth":"yes","arrows":"to"}
