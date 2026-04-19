@@ -10,6 +10,10 @@ Welcome. You're looking at your Markdown vault served as a live [[TiddlyWiki|htt
 
 This tiddler and the demo views below come from twillm's starter template. Edit, replace, or delete them as you make the wiki your own — your changes are saved in `twillm-wiki/` next to your vault, separate from vault content.
 
+If you don't know TiddlyWiki you can take this brief interactive tour:
+
+{{$:/twillm/start-tour-button}}
+
 ## Concept map
 
 A live graph of the tiddlers, their tags, and their wiki links. Click a node to open the tiddler; click and drag to rearrange.

@@ -3,7 +3,10 @@
 	"plugins": [
 		"tiddlywiki/markdown",
 		"tiddlywiki/tiddlyweb",
-		"tiddlywiki/filesystem"
+		"tiddlywiki/filesystem",
+		"tiddlywiki/tour",
+		"tiddlywiki/confetti",
+		"tiddlywiki/dynannotate"
 	],
 	"themes": [
 		"tiddlywiki/vanilla",

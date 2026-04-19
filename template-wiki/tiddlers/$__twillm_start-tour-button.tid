@@ -1,0 +1,26 @@
+title: $:/twillm/start-tour-button
+caption: Start Tour
+description: Start interactive training tour
+
+\whitespace trim
+\import [[$:/plugins/tiddlywiki/tour/variables]]
+<$button tooltip="Start interactive training tour" aria-label="Start Tour" class="twillm-tour-btn">
+<<tour-restart>>
+Start Tour
+</$button>
+
+<style>
+.twillm-tour-btn {
+	background: #4a86c8;
+	color: #fff;
+	border: none;
+	border-radius: 6px;
+	padding: 8px 18px;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+}
+.twillm-tour-btn:hover {
+	background: #3a6fa8;
+}
+</style>
