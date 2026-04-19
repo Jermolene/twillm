@@ -1,0 +1,37 @@
+<svg viewBox="0 0 760 120" xmlns="http://www.w3.org/2000/svg" style="font-family:sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4a5568"/>
+    </marker>
+  </defs>
+  <!-- LLM -->
+  <rect x="10" y="30" width="130" height="60" rx="8" fill="#e8f0fe" stroke="#4a86c8" stroke-width="2"/>
+  <text x="75" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#2c5282">LLM</text>
+  <text x="75" y="75" text-anchor="middle" font-size="10" fill="#2c5282">coding agent</text>
+  <!-- Vault -->
+  <rect x="220" y="30" width="130" height="60" rx="8" fill="#fef3c7" stroke="#d69e2e" stroke-width="2"/>
+  <text x="285" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#744210">Vault</text>
+  <text x="285" y="75" text-anchor="middle" font-size="10" fill="#744210">.md files on disk</text>
+  <!-- TiddlyWiki server -->
+  <rect x="430" y="30" width="130" height="60" rx="8" fill="#e6fffa" stroke="#38a169" stroke-width="2"/>
+  <text x="495" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#22543d">TiddlyWiki</text>
+  <text x="495" y="75" text-anchor="middle" font-size="11" fill="#22543d">server</text>
+  <!-- Browser -->
+  <rect x="640" y="30" width="110" height="60" rx="8" fill="#fce7f3" stroke="#d53f8c" stroke-width="2"/>
+  <text x="695" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#702459">Browser</text>
+  <text x="695" y="75" text-anchor="middle" font-size="11" fill="#702459">TiddlyWiki UI</text>
+  <!-- LLM -> Vault -->
+  <line x1="140" y1="60" x2="217" y2="60" stroke="#4a5568" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="178" y="52" text-anchor="middle" font-size="9" fill="#4a5568">reads &amp;</text>
+  <text x="178" y="76" text-anchor="middle" font-size="9" fill="#4a5568">writes</text>
+  <!-- Vault <-> TW Server -->
+  <line x1="350" y1="52" x2="427" y2="52" stroke="#4a5568" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="427" y1="68" x2="350" y2="68" stroke="#4a5568" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="388" y="46" text-anchor="middle" font-size="9" fill="#4a5568">watches</text>
+  <text x="388" y="82" text-anchor="middle" font-size="9" fill="#4a5568">saves edits</text>
+  <!-- TW Server <-> Browser -->
+  <line x1="560" y1="52" x2="637" y2="52" stroke="#4a5568" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="637" y1="68" x2="560" y2="68" stroke="#4a5568" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="598" y="46" text-anchor="middle" font-size="9" fill="#4a5568">serves</text>
+  <text x="598" y="82" text-anchor="middle" font-size="9" fill="#4a5568">syncs</text>
+</svg>

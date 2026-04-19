@@ -5,6 +5,9 @@ tags: [$:/tags/twillm-shell]
 
 Welcome. You're looking at your Markdown vault served as a live [[TiddlyWiki|https://tiddlywiki.com]] by **twillm**. Edits you make in the browser — including to this tiddler — are written to disk immediately; edits to your `.md` files made elsewhere (your coding agent, another editor, `git pull`) show up here without a reload.
 
+[img[architecture.svg]]
+
+
 This tiddler and the demo views below come from twillm's starter template. Edit, replace, or delete them as you make the wiki your own — your changes are saved in `twillm-wiki/` next to your vault, separate from vault content.
 
 ## Concept map
