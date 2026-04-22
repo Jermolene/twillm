@@ -2,6 +2,8 @@
 title: Multi-Head Attention
 tags: [Concept, Attention, Architecture]
 rating: 7
+created: "2025-03-10T15:50:00Z"
+modified: "2025-12-03T10:15:00Z"
 ---
 
 Runs several [[Self-Attention]] (or [[Attention Mechanism|cross-attention]]) operations in parallel, each with its own learned projection matrices, then concatenates the results and projects them back to the model dimension.

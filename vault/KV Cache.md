@@ -2,6 +2,8 @@
 title: KV Cache
 tags: [Concept, Inference]
 rating: 8
+created: "2025-07-25T14:10:00Z"
+modified: "2026-03-20T09:58:00Z"
 ---
 
 The Key-Value cache: an inference-time optimization for autoregressive [[Transformer]] models that avoids recomputing attention keys and values for tokens the model has already seen.

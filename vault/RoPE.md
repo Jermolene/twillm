@@ -3,6 +3,8 @@ title: RoPE
 tags: [Concept, Position]
 aliases: [Rotary Position Embedding, Rotary Positional Encoding]
 rating: 8
+created: "2025-06-12T11:18:00Z"
+modified: "2026-04-15T08:55:00Z"
 ---
 
 Rotary Position Embedding. A [[Positional Encoding]] scheme that encodes absolute position by rotating query and key vectors in 2D subspaces, and whose dot product naturally expresses *relative* position. Introduced by Su et al. in the RoFormer paper (2021).

@@ -20,7 +20,8 @@ The tiddlers in `vault/` are demo content. Add to them when you want to exercise
 - One tiddler per file: `vault/<Title>.md`
 - Frontmatter `title` should match filename
 - `tags` as YAML arrays: `tags: [concept, multi word tag]`
-- Don't include `created`, `modified`, or `type` — those round-trip out
+- Don't include `type` — `.md` implies `text/x-markdown` and it round-trips out
+- `created`/`modified` are optional; if present they round-trip as ISO-8601 strings
 - Wiki links: `[[Target Title]]` or `[[Display|Target Title]]`
 
 ## Editing template-wiki/

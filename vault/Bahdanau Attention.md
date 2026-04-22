@@ -2,6 +2,8 @@
 title: Bahdanau Attention
 tags: [Paper, Attention]
 rating: 6
+created: "2025-02-14T08:00:00Z"
+modified: "2025-04-02T19:33:00Z"
 ---
 
 The original attention mechanism in neural networks, introduced by Bahdanau, Cho, and Bengio in "Neural Machine Translation by Jointly Learning to Align and Translate" (2014).
