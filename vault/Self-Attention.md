@@ -6,6 +6,8 @@ created: "2025-01-22T09:40:00Z"
 modified: "2026-03-01T15:12:00Z"
 ---
 
+*This tiddler is part of the demo vault shipped with twillm.*
+
 A specific application of the [[Attention Mechanism]] where a sequence attends to itself: the queries, keys, and values are all linear projections of the same input. The core operation inside the [[Transformer]].
 
 ## How it works

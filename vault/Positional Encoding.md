@@ -6,6 +6,8 @@ created: "2025-03-22T12:05:00Z"
 modified: "2026-01-25T13:30:00Z"
 ---
 
+*This tiddler is part of the demo vault shipped with twillm.*
+
 Since the [[Transformer]] processes all positions in parallel via [[Self-Attention]], it has no inherent notion of sequence order. Positional encodings inject position information into the model.
 
 ## Approaches

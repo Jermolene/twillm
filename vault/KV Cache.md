@@ -6,6 +6,8 @@ created: "2025-07-25T14:10:00Z"
 modified: "2026-03-20T09:58:00Z"
 ---
 
+*This tiddler is part of the demo vault shipped with twillm.*
+
 The Key-Value cache: an inference-time optimization for autoregressive [[Transformer]] models that avoids recomputing attention keys and values for tokens the model has already seen.
 
 ## The problem

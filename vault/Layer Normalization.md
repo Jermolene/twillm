@@ -6,6 +6,8 @@ created: "2025-03-18T07:25:00Z"
 modified: "2025-08-19T12:40:00Z"
 ---
 
+*This tiddler is part of the demo vault shipped with twillm.*
+
 A normalization technique applied within each [[Transformer]] block to keep activations on a stable scale during training. Without it, deep transformers don't train reliably.
 
 ## What it does

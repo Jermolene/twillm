@@ -6,6 +6,8 @@ created: "2025-04-08T10:05:00Z"
 modified: "2025-09-27T14:22:00Z"
 ---
 
+*This tiddler is part of the demo vault shipped with twillm.*
+
 The process of converting raw text into a sequence of integer IDs that a [[Transformer]] (or any neural language model) can process. Sits at the boundary between the human-readable world and the model's vector space.
 
 ## Why not characters or words?

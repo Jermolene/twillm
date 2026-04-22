@@ -6,6 +6,8 @@ created: "2025-02-28T18:00:00Z"
 modified: "2026-04-10T11:35:00Z"
 ---
 
+*This tiddler is part of the demo vault shipped with twillm.*
+
 The Transformer is a neural network architecture introduced in "Attention Is All You Need" (Vaswani et al., 2017). It replaced recurrence with [[Self-Attention]], enabling massive parallelism and the scaling that made modern large language models possible.
 
 ## Architecture
