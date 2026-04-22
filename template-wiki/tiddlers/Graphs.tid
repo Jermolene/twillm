@@ -1,0 +1,26 @@
+title: Graphs
+tags: $:/tags/twillm-shell
+
+\procedure graph() $:/graph/Default
+
+These interactive graphs are powered by the [[tw5-graph|https://flibbles.github.io/tw5-graph/]] plugin. Click a node to open the tiddler; click and drag to rearrange. Drag tiddler links from the sidebar onto a graph to add them.
+
+!! Concept map
+
+A live graph of the tiddlers, their tags, and their wiki links.
+
+<$boundingbox width=100% height=400px>
+
+<$graph.view $tiddler="$:/graph/Default"/>
+
+</$boundingbox>
+
+!! Neighbourhood of <$text text={{{ [all[tiddlers]!is[system]!tag[$:/tags/twillm-shell]first[]] }}}/>
+
+A focused graph of everything that links to or from <$link to={{{ [all[tiddlers]!is[system]!tag[$:/tags/twillm-shell]first[]] }}}><$text text={{{ [all[tiddlers]!is[system]!tag[$:/tags/twillm-shell]first[]] }}}/></$link>.
+
+<$boundingbox width=100% height=400px>
+
+<$graph.view $tiddler="$:/graph/Neighbourhood"/>
+
+</$boundingbox>

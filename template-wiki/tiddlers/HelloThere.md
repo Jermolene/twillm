@@ -14,18 +14,6 @@ If you don't know TiddlyWiki you can take this brief interactive tour:
 
 {{$:/twillm/start-tour-button}}
 
-## Concept map
-
-A live graph of the tiddlers, their tags, and their wiki links. Click a node to open the tiddler; click and drag to rearrange.
-
-<$graph.view $tiddler="$:/graph/Default"/>
-
-## Neighbourhood of <$text text={{{ [all[tiddlers]!is[system]!tag[$:/tags/twillm-shell]first[]] }}}/>
-
-A focused graph of everything that links to or from <$link to={{{ [all[tiddlers]!is[system]!tag[$:/tags/twillm-shell]first[]] }}}><$text text={{{ [all[tiddlers]!is[system]!tag[$:/tags/twillm-shell]first[]] }}}/></$link> — useful when a single hub concept is what you care about.
-
-<$graph.view $tiddler="$:/graph/Neighbourhood"/>
-
 ## Tiddlers by topic
 
 Topic tiddlers group related concepts. Click through to see what's tagged.
