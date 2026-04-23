@@ -1,6 +1,6 @@
 # TWILLM
 
-A TiddlyWiki-based LLM knowledge wiki, inspired by [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). The LLM maintains an Obsidian-compatible vault of Markdown files which TiddlyWiki serves to a browser. Changes to the vault are picked up immediately and reflected in the brwowser.
+A TiddlyWiki-based LLM knowledge wiki, inspired by [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). The LLM maintains an Obsidian-compatible vault of Markdown files which TiddlyWiki serves to a browser. Changes to the vault are picked up immediately and reflected in the browser.
 
 ## Why TiddlyWiki instead of Obsidian
 
@@ -75,6 +75,8 @@ npm start
 ## Working with an LLM
 
 Point your coding agent (Claude Code, Cursor, etc.) at your vault. It edits the `.md` files directly. TiddlyWiki's watcher sees the changes and updates the browser without a reload.
+
+twillm is agent-agnostic — it watches files and doesn't call any model itself, so the choice of LLM is entirely on your side. Cloud agents (Claude Code, Cursor, Zed) and local models via [Ollama](https://ollama.com/) work the same way, provided whatever you're using can edit files on disk. For a local setup, run Ollama and point an Ollama-capable agent at your vault — [Aider](https://aider.chat/), [Continue](https://continue.dev/), [Cline](https://cline.bot/), or [opencode](https://opencode.ai/) all work. Smaller local models produce rougher notes; expect to do more curation than with a frontier model.
 
 ### Conventions for your agent
 
