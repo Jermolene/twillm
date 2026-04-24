@@ -10,7 +10,7 @@ Karpathy's pattern uses Obsidian as the viewer over an LLM-authored vault. Repla
 
 **Computed views replace materialised index files** Karpathy's setup uses an `index.md` that the LLM has to keep in sync as it adds notes. That is something that LLMs are bad at — staleness creeps in across sessions. In contrast, TiddlyWiki views are live filter expressions: a "tiddlers tagged `concept`, sorted by rating" view computes its contents at render time
 
-**Frontmatter becomes queryable structure** Obsidian shows YAML frontmatter as boxed metadata at the top of a note. TiddlyWiki promotes frontmatter fields into first-class tiddler fields you can filter, sort, and aggregate over: `[tag[concept]rating[]>[6]sort[title]]` returns "concept tiddlers I rated above 6, alphabetically". The LLM's ratings, statuses, dates, and custom fields turn into a small queryable database
+**Frontmatter becomes queryable structure** Obsidian shows YAML frontmatter as boxed metadata at the top of a note. TiddlyWiki promotes frontmatter fields into first-class tiddler fields you can filter, sort, and aggregate over: `[tag[concept]get[rating]compare:number:gt[6]sort[title]]` returns "concept tiddlers I rated above 6, alphabetically". The LLM's ratings, statuses, dates, and custom fields turn into a small queryable database
 
 **LLM-authored applets, not just content** Beyond Markdown notes, the LLM can drop in wikitext tiddlers (`.tid`) that act as small interactive live views: dashboards, browse-by-tag tools, journal indexes, glossary pages. These compose with the human's own customisations because they're just tiddlers. The wiki becomes a programmable surface, not just a notes folder
 
