@@ -131,6 +131,7 @@ for(const arg of argv) {
 }
 
 let vaultArg = null;
+const userPlugins = [];
 const passthrough = [];
 let seenSeparator = false;
 for(const arg of argv) {
@@ -140,6 +141,8 @@ for(const arg of argv) {
 	}
 	if(seenSeparator) {
 		passthrough.push(arg);
+	} else if(arg.charAt(0) === "+") {
+		userPlugins.push(arg);
 	} else if(!vaultArg && arg.charAt(0) !== "-") {
 		vaultArg = arg;
 	} else {
@@ -184,10 +187,14 @@ function resolvePluginFolder(packageName,subpath) {
 	}
 }
 
-const extraPlugins = [
+const bundledPlugins = [
 	resolvePluginFolder("tw5-graph","plugins/graph"),
 	resolvePluginFolder("tw5-vis-network","plugins/vis-network")
 ].filter(Boolean).map((p) => "++" + p);
+
+// Combine bundled plugins with user-specified +/++ args.
+// User plugins already carry their own prefix (+ or ++).
+const extraPlugins = bundledPlugins.concat(userPlugins);
 
 // If no TW commands were passed through, default to --listen
 const twArgs = passthrough.length > 0 ? passthrough : ["--listen"];
