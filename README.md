@@ -51,7 +51,11 @@ twillm-wiki/tiddlers/$__StoryList.tid
 
 **Obsidian users:** `twillm-wiki/` contains only `.tid` and config files, which Obsidian doesn't index as notes. The folder shows up in Obsidian's file explorer but contributes nothing to the note graph. If you want it hidden entirely, add `twillm-wiki/` to Settings → Files & Links → Excluded Files.
 
-To pull updates: `npx --prefer-online github:Jermolene/twillm` forces a re-check of the latest commit.
+### Pulling upstream changes
+
+`npx --prefer-online github:Jermolene/twillm` forces a re-check of the latest twillm commit and picks up the bundled TiddlyWiki at the same time. (If you installed by cloning the repo instead, use `git pull` and `npm install`.)
+
+Updates treat `twillm-wiki/` conservatively: files newly added to the template appear on your next run, but files already present are never overwritten — an updated shipped file doesn't replace yours, whether you edited it or not. To adopt the shipped version of a file, delete it and rerun twillm. To reset the whole working directory, delete `twillm-wiki/`, after committing any customisations you want to keep.
 
 ### If you do not already have a vault
 
