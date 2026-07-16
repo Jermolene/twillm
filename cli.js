@@ -120,8 +120,13 @@ function writeVaultLoader(wikiDir,vaultPath) {
 
 const argv = process.argv.slice(2);
 
-// Handle --help / --version before anything else
+// Handle --help / --version before anything else. Stop at the -- separator:
+// anything after it belongs to TiddlyWiki (e.g. twillm vault -- --version
+// should report TiddlyWiki's version, not twillm's).
 for(const arg of argv) {
+	if(arg === "--") {
+		break;
+	}
 	if(arg === "-h" || arg === "--help") {
 		process.stdout.write(HELP);
 		process.exit(0);
