@@ -26,7 +26,7 @@ The tiddlers in `vault/` are demo content. Add to them when you want to exercise
 
 ## Editing template-wiki/
 
-This is what users get. Be conservative — every change ships to everyone who runs `npx github:Jermolene/twillm`.
+This is what users get. Be conservative — new files ship to everyone who runs `npx github:Jermolene/twillm`. Changes to existing files only reach fresh materialisations: files already present in a user's `twillm-wiki/` are never overwritten.
 
 - `template-wiki/tiddlywiki.info` — wiki configuration. Plugins listed here are required of every user.
 - `template-wiki/tiddlers/$__SiteTitle.tid`, `$__SiteSubtitle.tid` — defaults users will probably override
@@ -36,7 +36,7 @@ This is what users get. Be conservative — every change ships to everyone who r
 ## Editing cli.js
 
 - Vault detection order is documented in the file header. Don't reorder without updating docs.
-- The `twillm-wiki/` materialisation is idempotent: copy template only if the directory doesn't exist; rewrite `vault-loader/tiddlywiki.files` every run (vault path may have moved).
+- The `twillm-wiki/` materialisation never overwrites: template files are copied only if they don't already exist, so user edits to shipped files (`tiddlywiki.info`, site title, graph views) persist across runs, while files newly added to the template still propagate. Exception: `vault-loader/tiddlywiki.files` is rewritten every run (vault path may have moved).
 - Pass-through args after `--` go to TiddlyWiki. Default command is `--listen` if nothing was passed.
 
 ## Don't run servers without being asked

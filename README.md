@@ -40,7 +40,7 @@ twillm auto-detects the vault directory:
 2. Otherwise looks for `vault/`, `notes/`, or `content/` in the current directory
 3. Falls back to the current directory if it contains an `.obsidian/` folder
 
-twillm creates a `twillm-wiki/` working directory in your repo on first run. This is **commit-friendly**: any customisations you make (wikitext `.tid` tiddlers, themes, plugins, site title) live there and can be shared via git alongside your vault. The dynamic-store config inside it uses relative paths so it works for all collaborators.
+twillm creates a `twillm-wiki/` working directory in your repo on first run. This is **commit-friendly**: any customisations you make (wikitext `.tid` tiddlers, themes, plugins, site title) live there and can be shared via git alongside your vault. Files already present in `twillm-wiki/` are never overwritten on later runs, so edits to shipped files like `tiddlywiki.info` persist; to reset a file to the shipped version, delete it and rerun twillm. The dynamic-store config inside it uses relative paths so it works for all collaborators.
 
 A few things inside `twillm-wiki/` are transient and should be gitignored:
 
