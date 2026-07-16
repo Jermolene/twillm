@@ -61,26 +61,26 @@ function detectVault(arg) {
 
 // --- Template materialisation ---
 
-function copyDir(src,dest) {
+function copyDirIfMissing(src,dest) {
 	fs.mkdirSync(dest,{recursive: true});
 	for(const entry of fs.readdirSync(src,{withFileTypes: true})) {
 		const s = path.join(src,entry.name);
 		const d = path.join(dest,entry.name);
 		if(entry.isDirectory()) {
-			copyDir(s,d);
-		} else {
+			copyDirIfMissing(s,d);
+		} else if(!fs.existsSync(d)) {
 			fs.copyFileSync(s,d);
 		}
 	}
 }
 
 function materialiseWiki(wikiDir,templateDir) {
-	// Copy every file from the template into the wiki directory, overwriting.
-	// Files in wikiDir that are not in templateDir (user's own tiddlers) are left alone.
-	// This means template updates propagate on every run; the tradeoff is that edits to
-	// shipped tiddlers (HelloThere, graph views) get overwritten — users who want to
-	// persist such edits should copy them into their vault or remove the $:/tags/twillm-shell tag.
-	copyDir(templateDir,wikiDir);
+	// Copy template files into the wiki directory, but never overwrite a file that
+	// already exists there: user edits to shipped files (tiddlywiki.info, site title,
+	// graph views) must persist across runs (see issue #1). Files newly added to the
+	// template still propagate to existing users. To reset to a fresh template,
+	// delete twillm-wiki/ (or individual files within it) and rerun.
+	copyDirIfMissing(templateDir,wikiDir);
 }
 
 function writeVaultLoader(wikiDir,vaultPath) {
