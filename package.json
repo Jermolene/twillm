@@ -26,6 +26,7 @@
 	],
 	"scripts": {
 		"start": "node ./cli.js vault",
+		"test": "node ./test/smoke.js",
 		"build": "node ./cli.js vault -- --render '[type[text/x-markdown]]' '[encodeuricomponent[]addsuffix[.html]]' text/plain '$:/core/templates/static.tiddler.html'"
 	},
 	"dependencies": {

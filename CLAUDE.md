@@ -37,7 +37,12 @@ This is what users get. Be conservative — new files ship to everyone who runs 
 
 - Vault detection order is documented in the file header. Don't reorder without updating docs.
 - The `twillm-wiki/` materialisation never overwrites: template files are copied only if they don't already exist, so user edits to shipped files (`tiddlywiki.info`, site title, graph views) persist across runs, while files newly added to the template still propagate. Exception: `vault-loader/tiddlywiki.files` is rewritten every run (vault path may have moved).
-- Pass-through args after `--` go to TiddlyWiki. Default command is `--listen` if nothing was passed.
+- Pass-through args after `--` go to TiddlyWiki. Default command is `--listen` if nothing was passed. The `-h`/`-v` scan stops at `--`; flags after it belong to TiddlyWiki.
+- If you change behaviour here, grep README.md and this file for descriptions of the old behaviour and update them — the issue #1 regression shipped because docs and code drifted apart.
+
+## Testing
+
+`npm test` runs `test/smoke.js`: an end-to-end exercise of cli.js in a temp directory asserting the README contracts — materialisation, never-overwrite persistence, headless commands exiting by themselves, version passthrough. Run it after changing cli.js or template-wiki/. It spawns no long-lived server, so it's always safe to run. CI runs it on every push, and daily against upstream branch HEAD because the tiddlywiki dependency tracks the moving `bidirectional-filesystem` branch.
 
 ## Don't run servers without being asked
 
