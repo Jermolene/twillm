@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    # Daily: the tiddlywiki dependency tracks the moving
+    # bidirectional-filesystem branch, so upstream can break twillm
+    # without any commit here. This catches that drift.
+    - cron: "17 5 * * *"
+
+jobs:
+  test:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # The lockfile pins tiddlywiki as git+ssh; runners have no SSH keys
+      - name: Use https for GitHub git dependencies
+        run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+      - run: npm ci
+      - run: npm test
+
+  upstream:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install with tiddlywiki at branch HEAD
+        run: |
+          git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+          npm install --no-save "tiddlywiki@github:TiddlyWiki/TiddlyWiki5#bidirectional-filesystem"
+      - run: npm test
